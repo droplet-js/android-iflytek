@@ -1,0 +1,4 @@
+# --- 科大讯飞语言SDK ---
+
+-keep class com.iflytek.**{*;}
+-keepattributes Signature
