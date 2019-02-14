@@ -26,6 +26,9 @@ steps:
     VERSION_NAME: 1.0.0-SNAPSHOT
   commands:
   - ./gradlew :iflytek-android:clean :iflytek-android:install :iflytek-android:artifactoryPublish
+  when:
+    event:
+    - push
 
 - name: release
   image: runmymind/docker-android-sdk
