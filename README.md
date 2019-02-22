@@ -1,5 +1,8 @@
 # android-iflytek
 
+[![Build Status](https://cloud.drone.io/api/badges/v7lin/android-iflytek/status.svg)](https://cloud.drone.io/v7lin/android-iflytek)
+[ ![Download](https://api.bintray.com/packages/v7lin/maven/iflytek-android/images/download.svg) ](https://bintray.com/v7lin/maven/iflytek-android/_latestVersion)
+
 ### iflytek
 
 ````
