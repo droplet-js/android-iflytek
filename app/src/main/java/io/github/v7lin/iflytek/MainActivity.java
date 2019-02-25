@@ -26,8 +26,7 @@ public class MainActivity extends Activity {
 
         if (SpeechUtility.getUtility() == null) {
             // 请勿在“=”与 appid 之间添加任务空字符或者转义符
-            SpeechUtility.createUtility(getApplicationContext(),
-                    SpeechConstant.APPID + "=" + "5c61057f");
+            SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=" + "5c61057f");
         }
 
         findViewById(R.id.text_to_speech).setOnClickListener(new View.OnClickListener() {
@@ -40,8 +39,7 @@ public class MainActivity extends Activity {
 
     void beginPlay(String text) {
         if (speechSynthesizer == null) {
-            speechSynthesizer = SpeechSynthesizer.createSynthesizer(getApplicationContext(),
-                    new IFlyTekInitListener(text));
+            speechSynthesizer = SpeechSynthesizer.createSynthesizer(getApplicationContext(), new IFlyTekInitListener(text));
         } else {
             beginPlayReact(text);
         }
@@ -104,8 +102,7 @@ public class MainActivity extends Activity {
              * 注：AUDIO_FORMAT参数语记需要更新版本才能生效
              */
 //            speechSynthesizer.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
-//            speechSynthesizer.setParameter(SpeechConstant.TTS_AUDIO_PATH,
-//                    "./sdcard/iflytek.wav");
+//            speechSynthesizer.setParameter(SpeechConstant.TTS_AUDIO_PATH, "./sdcard/iflytek.wav");
             try {
                 int code = speechSynthesizer.startSpeaking(text, synthesizerListener);
                 if (code != ErrorCode.SUCCESS) {
