@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">android-iflytek</string>
+    <string name="text_to_speech">TEXT TO SPEECH</string>
+    <string name="test_text">科大讯飞语音合成开发 \u2026</string>
+    <string name="iflytek_init_failure">"讯飞语音初始化失败"</string>
 </resources>

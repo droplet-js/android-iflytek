@@ -10,13 +10,14 @@ import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechEvent;
 import com.iflytek.cloud.SpeechSynthesizer;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.SynthesizerListener;
 
 public class MainActivity extends Activity {
 
-    private SpeechSynthesizer speechSynthesizer;
+    SpeechSynthesizer speechSynthesizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +26,22 @@ public class MainActivity extends Activity {
 
         if (SpeechUtility.getUtility() == null) {
             // 请勿在“=”与 appid 之间添加任务空字符或者转义符
-            SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=" + "5c61057f");
+            SpeechUtility.createUtility(getApplicationContext(),
+                    SpeechConstant.APPID + "=" + "5c61057f");
         }
 
         findViewById(R.id.text_to_speech).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                beginPlay("科大讯飞语音合成开发 ...");
+                beginPlay(getResources().getString(R.string.test_text));
             }
         });
     }
 
-    private void beginPlay(String text) {
+    void beginPlay(String text) {
         if (speechSynthesizer == null) {
-            speechSynthesizer = SpeechSynthesizer.createSynthesizer(getApplicationContext(), new IFlyTekInitListener(text));
+            speechSynthesizer = SpeechSynthesizer.createSynthesizer(getApplicationContext(),
+                    new IFlyTekInitListener(text));
         } else {
             beginPlayReact(text);
         }
@@ -47,7 +50,7 @@ public class MainActivity extends Activity {
     private final class IFlyTekInitListener implements InitListener {
         private String text;
 
-        public IFlyTekInitListener(String text) {
+        IFlyTekInitListener(String text) {
             super();
             this.text = text;
         }
@@ -72,11 +75,11 @@ public class MainActivity extends Activity {
                 speechSynthesizer.destroy();
                 speechSynthesizer = null;
             }
-            showShortToast("讯飞语音初始化失败");
+            showShortToast(getResources().getString(R.string.iflytek_init_failure));
         }
     }
 
-    private void beginPlayReact(String text) {
+    void beginPlayReact(String text) {
         if (speechSynthesizer != null) {
             /** 清空参数 **/
             speechSynthesizer.setParameter(SpeechConstant.PARAMS, null);
@@ -93,15 +96,16 @@ public class MainActivity extends Activity {
             /** 设置音量，范围 0 - 100 **/
             speechSynthesizer.setParameter(SpeechConstant.VOLUME, String.valueOf(80));
             /** 设置播放器音频流类型 **/
-//			speechSynthesizer.setParameter(SpeechConstant.STREAM_TYPE, "3");
+//            speechSynthesizer.setParameter(SpeechConstant.STREAM_TYPE, "3");
             /** 设置播放合成音频打断音乐播放，默认为true **/
             speechSynthesizer.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");
             /**
              * 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
              * 注：AUDIO_FORMAT参数语记需要更新版本才能生效
              */
-//			speechSynthesizer.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
-//			speechSynthesizer.setParameter(SpeechConstant.TTS_AUDIO_PATH, "./sdcard/iflytek.wav");
+//            speechSynthesizer.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
+//            speechSynthesizer.setParameter(SpeechConstant.TTS_AUDIO_PATH,
+//                    "./sdcard/iflytek.wav");
             try {
                 int code = speechSynthesizer.startSpeaking(text, synthesizerListener);
                 if (code != ErrorCode.SUCCESS) {
@@ -161,14 +165,14 @@ public class MainActivity extends Activity {
         public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
             // 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
             // 若使用本地能力，会话id为null
-//			if (SpeechEvent.EVENT_SESSION_ID == eventType) {
-//				String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
-//				Log.d(TAG, "session id =" + sid);
-//			}
+            if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+                String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+                Log.d("TAG", "session id =" + sid);
+            }
         }
     };
 
-    private void showShortToast(CharSequence text) {
+    void showShortToast(CharSequence text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 

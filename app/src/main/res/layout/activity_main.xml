@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/text_to_speech"
-        android:text="TEXT TO SPEECH"
+        android:text="@string/text_to_speech"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
