@@ -35,6 +35,8 @@ steps:
   commands:
   - ./gradlew :iflytek-android:clean :iflytek-android:install :iflytek-android:artifactoryPublish
   when:
+    branch:
+    - master
     event:
     - push
 
